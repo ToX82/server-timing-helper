@@ -1,0 +1,31 @@
+{
+    "name": "tox82/server-timing-helper",
+    "description": "A simple Server Timing helper class. Make it easy to profile your code's execution time and send it to the client.",
+    "keywords": [
+        "server",
+        "profiling",
+        "profiler",
+        "benchmark",
+        "timing",
+        "performance",
+        "debug",
+        "debugging"
+    ],
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Emanuele ToX Toscano",
+            "email": "toss82@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tox82\\": "src"
+        }
+    }
+}
