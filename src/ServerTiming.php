@@ -46,4 +46,19 @@ class ServerTiming
         $durationInMicroseconds = (microtime(true) - self::$timers[$metricName]) * 1000;
         header("Server-Timing: " . $metricName . ";dur=" . $durationInMicroseconds . ";desc=" . $metricName);
     }
+
+    /**
+     * Stops the timer for the given metric name if it is running, otherwise starts it
+     *
+     * @param string $metricName The name of the metric
+     * @return void
+     */
+    public static function profile(string $metricName)
+    {
+        if (isset(self::$timers[$metricName])) {
+            self::stop($metricName);
+        } else {
+            self::start($metricName);
+        }
+    }
 }
