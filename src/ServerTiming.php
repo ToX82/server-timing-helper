@@ -23,6 +23,7 @@ namespace Tox82;
 class ServerTiming
 {
     private static $timers = [];
+    private static $totals = [];
 
     /**
      * Starts the timer for the given metric name
@@ -33,6 +34,11 @@ class ServerTiming
     public static function start(string $metricName)
     {
         self::$timers[$metricName] = microtime(true);
+
+        if (!isset(self::$totals['calls'][$metricName])) {
+            self::$totals['calls'][$metricName] = 0;
+            self::$totals['start'][$metricName] = microtime(true);
+        }
     }
 
     /**
@@ -45,6 +51,9 @@ class ServerTiming
     {
         $time = self::$timers[$metricName];
         unset(self::$timers[$metricName]);
+
+        self::$totals['calls'][$metricName] += 1;
+        self::$totals['time'][$metricName] += (microtime(true) - $time) * 1000;
 
         return (microtime(true) - $time) * 1000;
     }
@@ -75,10 +84,12 @@ class ServerTiming
     {
         if (isset(self::$timers[$metricName])) {
             $durationInMicroseconds = self::stop($metricName);
-            error_log($metricName . " stopped - (duration: " . round($durationInMicroseconds, 5) . " ms)");
+            $totalCalls = self::$totals['calls'][$metricName];
+            $totalInMicroseconds = self::$totals['time'][$metricName];
+            error_log('Server-Timing: ' . $metricName . " stop - (" . round($durationInMicroseconds, 5) . " ms - called " . $totalCalls . " times, total time: " . round($totalInMicroseconds, 5) . " ms)");
         } else {
             self::start($metricName);
-            error_log($metricName . " started");
+            error_log('Server-Timing: ' . $metricName . " start");
         }
     }
 }
