@@ -14,14 +14,26 @@ Usage
 Let's say you want to benchmark the execution of a function. You can do it like this:
 
 ```php
-\Tox82\ServerTiming::start('metricName');
+\Tox82\ServerTiming::profile('metricName');
 # ... your code here ...
-\Tox82\ServerTiming::stop('metricName');
+\Tox82\ServerTiming::profile('metricName');
 ```
 
 And that's it! You will see the metrics in the Network tab of your browser's DevTools, under the Timing tab
 
 ![server-timing](https://user-images.githubusercontent.com/659492/216758847-673f1155-db52-48a8-aada-3648b7c837cf.png)
+
+I don't like the ServerTiming profiler!
+-----------
+
+You can track the metrics in your log files too. Just use the `log` method instead:
+
+```php
+\Tox82\ServerTiming::log('metricName');
+# ... your code here ...
+\Tox82\ServerTiming::log('metricName');
+```
+
 
 Resources
 ---------

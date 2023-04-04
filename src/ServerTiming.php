@@ -39,12 +39,11 @@ class ServerTiming
      * Stops the timer for the given metric name and sends the metric to the client in the Server-Timing header
      *
      * @param string $metricName The name of the metric
-     * @return void
+     * @return float The duration in milliseconds
      */
     public static function stop(string $metricName)
     {
-        $durationInMicroseconds = (microtime(true) - self::$timers[$metricName]) * 1000;
-        header("Server-Timing: " . $metricName . ";dur=" . $durationInMicroseconds . ";desc=" . $metricName);
+        return (microtime(true) - self::$timers[$metricName]) * 1000;
     }
 
     /**
@@ -56,9 +55,27 @@ class ServerTiming
     public static function profile(string $metricName)
     {
         if (isset(self::$timers[$metricName])) {
-            self::stop($metricName);
+            $durationInMicroseconds = self::stop($metricName);
+            header("Server-Timing: " . $metricName . ";dur=" . $durationInMicroseconds . ";desc=" . $metricName);
         } else {
             self::start($metricName);
+        }
+    }
+
+    /**
+     * Log method: this calculates the time between the start and stop calls, and triggers an error_log for both the start and the stop times, with the time difference in the stop message
+     *
+     * @param string $metricName The name of the metric
+     * @return void
+     */
+    public static function log(string $metricName)
+    {
+        if (isset(self::$timers[$metricName])) {
+            $durationInMicroseconds = self::stop($metricName);
+            error_log($metricName . " stopped - (duration: " . $durationInMicroseconds . ")");
+        } else {
+            self::start($metricName);
+            error_log($metricName . " started");
         }
     }
 }
