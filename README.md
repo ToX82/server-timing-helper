@@ -30,9 +30,19 @@ You can track the metrics in your log files too. Just use the `log` method inste
 
 ```php
 \Tox82\ServerTiming::log('metricName');
+\Tox82\ServerTiming::log('    firstBlock');
 # ... your code here ...
+\Tox82\ServerTiming::log('    firstBlock');
+\Tox82\ServerTiming::log('    secondBlock');
+# ... your code here ...
+\Tox82\ServerTiming::log('    secondBlock');
 \Tox82\ServerTiming::log('metricName');
 ```
+
+And you will see something like this in your apache's error log
+
+![image](https://user-images.githubusercontent.com/659492/229862330-11b94c17-561d-45eb-8393-aed2a13508ea.png)
+
 
 
 Resources
