@@ -75,7 +75,7 @@ class ServerTiming
     {
         if (isset(self::$timers[$metricName])) {
             $durationInMicroseconds = self::stop($metricName);
-            error_log($metricName . " stopped - (duration: " . $durationInMicroseconds . ")");
+            error_log($metricName . " stopped - (duration: " . round($durationInMicroseconds, 5) . " ms)");
         } else {
             self::start($metricName);
             error_log($metricName . " started");
