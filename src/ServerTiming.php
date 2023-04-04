@@ -43,7 +43,10 @@ class ServerTiming
      */
     public static function stop(string $metricName)
     {
-        return (microtime(true) - self::$timers[$metricName]) * 1000;
+        $time = self::$timers[$metricName];
+        unset(self::$timers[$metricName]);
+
+        return (microtime(true) - $time) * 1000;
     }
 
     /**
