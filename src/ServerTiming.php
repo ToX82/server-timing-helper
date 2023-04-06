@@ -37,6 +37,7 @@ class ServerTiming
 
         if (!isset(self::$totals['calls'][$metricName])) {
             self::$totals['calls'][$metricName] = 0;
+            self::$totals['time'][$metricName] = 0;
             self::$totals['start'][$metricName] = microtime(true);
         }
     }
